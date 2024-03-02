@@ -1,0 +1,70 @@
+body {
+  background-image: url('assets/background-image.jpeg');
+}
+form {
+    max-width: 600px;
+    margin: 20px auto;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  fieldset {
+    border: 1px solid #ddd;
+    background-color: antiquewhite;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+  }
+  
+  legend {
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+  
+  h3 {
+    margin-top: 15px;
+  }
+  
+  
+  input[type="text"], input[type="email"]{
+    width: 70%;
+    height: 25px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+  
+input[type="radio"] {
+  position: relative;
+  top: 20px;
+  left: 500px;
+}
+
+input[type="number"]{
+    width: 100px;
+    height: 15px;
+}
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .bouton {
+    width : 100px;
+    background-color: rgb(90, 166, 171);
+    text-align: center;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .bouton:hover {
+    background-color: rgb(67, 124, 128);
+  }
+
