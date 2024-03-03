@@ -1,14 +1,14 @@
-var fieldsetReservation = document.getElementById("reservation");
-var fieldsetOptions = document.getElementById("options");
-var fieldsetCoordonnees = document.getElementById("coordonnees");
+let fieldsetReservation = document.getElementById("reservation");
+let fieldsetOptions = document.getElementById("options");
+let fieldsetCoordonnees = document.getElementById("coordonnees");
 
 //Par défaut afficher seulement la section "réservation"
 fieldsetReservation.style.display = "block";
 fieldsetOptions.style.display = "none";
 fieldsetCoordonnees.style.display = "none";
 
-//Au clic sur le bouton suivant, passer à la section "options" et cacher les autres
-var btnSuivant1 = document.getElementById("btnSuivant1");
+//Gestion d'évènements BOUTON SUIVANT N°1
+let btnSuivant1 = document.getElementById("btnSuivant1");
 
 btnSuivant1.addEventListener('click', () => {
   // Validez la partie 1 avant de passer à la section suivante
@@ -19,32 +19,60 @@ btnSuivant1.addEventListener('click', () => {
     fieldsetCoordonnees.style.display = "none";
   } else {
     // Si la validation échoue, affichez une alerte et empêchez la transition
-    alert("Veuillez remplir tous les champs avant de passer à la section suivante.");
+    alert("Veuillez choisir 1 pass et la date correspondante.");
   }
 });
 
 // Fonction pour valider la partie 1
 function validerPartie1() {
   // Ajoutez vos conditions de validation ici
-  var auMoinsUnPassCoche = pass1jourCheckbox.checked || pass2joursCheckbox.checked || pass3joursCheckbox.checked
+  let auMoinsUnPassCoche = pass1jourCheckbox.checked || pass2joursCheckbox.checked || pass3joursCheckbox.checked
   || pass1jourReduitCheckbox.checked || pass2joursReduitCheckbox.checked || pass3joursReduitCheckbox.checked;
-  var nombrePlacesValide = parseInt(document.getElementById("nombrePlaces").value, 10) >= 1;
+  let nombrePlacesValide = parseInt(document.getElementById("nombrePlaces").value, 10) >= 1;
 
   // Retourne true si la validation réussit, sinon false
   return auMoinsUnPassCoche && nombrePlacesValide;
 }
 
 
-//Au clic sur le bouton suivant, passer à la section "coordonnées" et cacher les autres
-var btnSuivant2 = document.getElementById("btnSuivant2");
+//Gestion d'évènements pour BOUTON SUIVANT N°2
+document.addEventListener('DOMContentLoaded', function() {
+  // Déclaration des variables ici
+  let radioEnfantsOui = document.getElementById("enfantsOui");
+  let radioEnfantsNon = document.getElementById("enfantsNon");
+  let btnSuivant2 = document.getElementById("btnSuivant2");
 
-btnSuivant2.addEventListener('click', () => {
-  fieldsetReservation.style.display = "none";
-  fieldsetOptions.style.display = "none";
-  fieldsetCoordonnees.style.display = "block";
-})
+  // Ajout du gestionnaire d'événements
+  btnSuivant2.addEventListener('click', () => {
+    if (validerPartie2()) {
+      // Si la validation réussit, passez à la section suivante
+      fieldsetReservation.style.display = "none";
+      fieldsetOptions.style.display = "none";
+      fieldsetCoordonnees.style.display = "block";
+    } else {
+      // Si la validation échoue, affichez une alerte et empêchez la transition
+      alert("Veuillez répondre à la question \"Venez-vous avec des enfants ?\"");
+    }
+  });
+
+  // Fonction pour valider la partie 1
+  function validerPartie2() {
+    // Ajoutez vos conditions de validation ici
+    let reponseEnfants = radioEnfantsOui.checked || radioEnfantsNon.checked;
+    // Retourne true si la validation réussit, sinon false
+    return reponseEnfants;
+  }
+});
+
+// let btnSuivant2 = document.getElementById("btnSuivant2");
+
+// btnSuivant2.addEventListener('click', () => {
+//   fieldsetReservation.style.display = "none";
+//   fieldsetOptions.style.display = "none";
+//   fieldsetCoordonnees.style.display = "block";
+// })
 //Au clic sur le bouton précédent on revient sur la section réservation
-var btnPrecedent = document.getElementById("btnPrecedent");
+let btnPrecedent = document.getElementById("btnPrecedent");
 
 btnPrecedent.addEventListener('click', () => {
   fieldsetReservation.style.display = "block";
@@ -53,7 +81,7 @@ btnPrecedent.addEventListener('click', () => {
 })
 
 //Au clic sur le 2ème bouton précédent on revient sur la section options
-var btnPrecedent2 = document.getElementById("btnPrecedent2");
+let btnPrecedent2 = document.getElementById("btnPrecedent2");
 
 btnPrecedent2.addEventListener('click', () => {
   fieldsetReservation.style.display = "none";
@@ -158,11 +186,62 @@ function choixDate2joursReduit() {
   pass2joursDateSection.style.display = checkboxPass2joursReduit.checked ? "block" : "none";
 }
 
-//Afficher la réservation de casques si la checkbox "enfants" est cochée
-function afficherCasques() {
-  let checkboxEnfantsOui = document.getElementById("enfantsOui");
-  let sectionCasquesEnfants = document.getElementById("casquesEnfants");
 
-  sectionCasquesEnfants.style.display = checkboxEnfantsOui.checked ? "block" : "none";
+//Cocher automatiquement "TENTE 3 NUITS" si les boutons des 3 nuits sont cochées
+function cocherTente3nuits() {
+  var tenteNuit1Checked = document.getElementById('tenteNuit1').checked;
+  var tenteNuit2Checked = document.getElementById('tenteNuit2').checked;
+  var tenteNuit3Checked = document.getElementById('tenteNuit3').checked;
+  var tente3NuitsButton = document.getElementById('tente3Nuits');
+
+  if (tenteNuit1Checked && tenteNuit2Checked && tenteNuit3Checked) {
+    // Si les trois premiers sont cochés, cochez le bouton "tente3Nuits" et décochez les trois premiers
+    tente3NuitsButton.checked = true;
+    document.getElementById('tenteNuit1').checked = false;
+    document.getElementById('tenteNuit2').checked = false;
+    document.getElementById('tenteNuit3').checked = false;
+  }
+  //Si le bouton "tente3Nuits" est coché désactiver les options précédentes
+  if (tente3NuitsButton.checked && (tenteNuit1.checked || tenteNuit2.checked || tenteNuit3.checked)) {
+    // Si c'est le cas, désélectionnez automatiquement les options précédentes
+    tenteNuit1.checked = false;
+    tenteNuit2.checked = false;
+    tenteNuit3.checked = false;
+  }
+}
+
+// Fonction pour cocher automatiquement "VAN 3 NUITS" si les boutons des 3 nuits sont cochés
+function cocherVan3nuits() {
+  var vanNuit1Checked = document.getElementById('vanNuit1').checked;
+  var vanNuit2Checked = document.getElementById('vanNuit2').checked;
+  var vanNuit3Checked = document.getElementById('vanNuit3').checked;
+  var van3NuitsButton = document.getElementById('van3Nuits');
+
+  if (vanNuit1Checked && vanNuit2Checked && vanNuit3Checked) {
+    // Si les trois premiers sont cochés, cochez le bouton "van3Nuits" et décochez les trois premiers
+    van3NuitsButton.checked = true;
+    document.getElementById('vanNuit1').checked = false;
+    document.getElementById('vanNuit2').checked = false;
+    document.getElementById('vanNuit3').checked = false;
+  }
+  //Si le bouton "van3Nuits" est coché désactiver les options précédentes
+  if (van3NuitsButton.checked && (vanNuit1.checked || vanNuit2.checked || vanNuit3.checked)) {
+    // Si c'est le cas, désélectionnez automatiquement les options précédentes
+    vanNuit1.checked = false;
+    vanNuit2.checked = false;
+    vanNuit3.checked = false;
+  }
+}
+
+function afficherMasquerCasques() {
+  let radioEnfantsOui = document.getElementById("enfantsOui");
+  let sectionCasquesEnfants = document.getElementById("casquesEnfants");
+  
+  if (radioEnfantsOui.checked) {
+    sectionCasquesEnfants.style.display = "block";
+  } 
+  else {
+    sectionCasquesEnfants.style.display = "none";
+  }
 };
 
