@@ -10,7 +10,6 @@ include 'includes/header.php';
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Formulaire de réservation Music Vercors Festival</title>
   <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
 </head>
 
 <body>
@@ -25,7 +24,7 @@ include 'includes/header.php';
       <h3>Nombre de réservation(s) :</h3>
       <input type="number" name="nombrePlaces" id="nombrePlaces" value="1" min="1" required>
       <h3>Réservation(s) en tarif réduit</h3>
-      <input type="radio" name="tarifReduit" id="tarifReduit" onclick="afficherMasquerTarifsReduits()">
+      <input type="checkbox" name="tarifReduit" id="tarifReduit" onclick="afficherMasquerTarifsReduits()">
       <label for="tarifReduit">Ma réservation sera en tarif réduit</label>
 
       <h3>Choisissez votre formule :</h3>
@@ -98,23 +97,28 @@ include 'includes/header.php';
     <fieldset id="options">
       <legend>Options</legend>
       <h3>Réserver un emplacement de tente : </h3>
-      <input type="radio" id="tenteNuit1" name="tenteNuit1" class="tenteNuit" value="tenteNuit1" onchange="cocherTente3nuits()">
+      <input type="checkbox" id="tenteNuit1" name="tenteNuit1" class="tenteNuit" value="tenteNuit1"
+        onchange="cocherTente3nuits()">
       <label for="tenteNuit1">Pour la nuit du 01/07 (5€)</label>
-      <input type="radio" id="tenteNuit2" name="tenteNuit2" class="tenteNuit" value="tenteNuit2" onchange="cocherTente3nuits()">
+      <input type="checkbox" id="tenteNuit2" name="tenteNuit2" class="tenteNuit" value="tenteNuit2"
+        onchange="cocherTente3nuits()">
       <label for="tenteNuit2">Pour la nuit du 02/07 (5€)</label>
-      <input type="radio" id="tenteNuit3" name="tenteNuit3" class="tenteNuit" value="tenteNuit3" onchange="cocherTente3nuits()">
+      <input type="checkbox" id="tenteNuit3" name="tenteNuit3" class="tenteNuit" value="tenteNuit3"
+        onchange="cocherTente3nuits()">
       <label for="tenteNuit3">Pour la nuit du 03/07 (5€)</label>
-      <input type="radio" id="tente3Nuits" name="tente3Nuits" class="tenteNuit" value="tente3Nuits" onchange="cocherTente3nuits()">
+      <input type="checkbox" id="tente3Nuits" name="tente3Nuits" class="tenteNuit" value="tente3Nuits"
+        onchange="cocherTente3nuits()">
       <label for="tente3Nuits">Pour les 3 nuits (12€)</label>
 
       <h3>Réserver un emplacement de camion aménagé : </h3>
-      <input type="radio" id="vanNuit1" name="vanNuit1" class="vanNuit" value="vanNuit1" onchange="cocherVan3nuits()">
+      <input type="checkbox" id="vanNuit1" name="vanNuit1" class="vanNuit" value="vanNuit1" onchange="cocherVan3nuits()">
       <label for="vanNuit1">Pour la nuit du 01/07 (5€)</label>
-      <input type="radio" id="vanNuit2" name="vanNuit2" class="vanNuit" value="vanNuit2" onchange="cocherVan3nuits()">
+      <input type="checkbox" id="vanNuit2" name="vanNuit2" class="vanNuit" value="vanNuit2" onchange="cocherVan3nuits()">
       <label for="vanNuit2">Pour la nuit du 02/07 (5€)</label>
-      <input type="radio" id="vanNuit3" name="vanNuit3" class="vanNuit" value="vanNuit3" onchange="cocherVan3nuits()">
+      <input type="checkbox" id="vanNuit3" name="vanNuit3" class="vanNuit" value="vanNuit3" onchange="cocherVan3nuits()">
       <label for="vanNuit3">Pour la nuit du 03/07 (5€)</label>
-      <input type="radio" id="van3Nuits" name="van3Nuits" class="vanNuit" value="van3Nuits" onchange="cocherVan3nuits()">
+      <input type="checkbox" id="van3Nuits" name="van3Nuits" class="vanNuit" value="van3Nuits"
+        onchange="cocherVan3nuits()">
       <label for="van3Nuits">Pour les 3 nuits (12€)</label>
 
       <h3>Venez-vous avec des enfants ?</h3>
@@ -162,5 +166,7 @@ include 'includes/header.php';
   include 'includes/footer.php';
   ?>
 </body>
+<script src="script.js" defer></script>
+
 
 </html>

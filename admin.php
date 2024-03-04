@@ -1,8 +1,9 @@
 <?php
-const PASSWORD = "coucou";
+// Hash du mot de passe : "coucou"
+const PASSWORD = '$2y$10$ZB1WgyZr7TsStWYYCxq/euKLobplurGdt6P9huO4zjoPeE69V6H16';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if ($_POST["password"] !== PASSWORD) {
+    if (!password_verify($_POST["password"], PASSWORD)) {
         $error = "Le mot de passe ne correspond pas";
 
         header("location:login-admin.php?error=" . $error);
@@ -36,7 +37,7 @@ $fichier = fopen("reservations.csv", "r");
     }
 </style>
 <table>
-    <thead>    
+    <thead>
         <th>Nom</th>
         <th>Prénom</th>
         <th>Email</th>

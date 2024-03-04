@@ -64,13 +64,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// let btnSuivant2 = document.getElementById("btnSuivant2");
-
-// btnSuivant2.addEventListener('click', () => {
-//   fieldsetReservation.style.display = "none";
-//   fieldsetOptions.style.display = "none";
-//   fieldsetCoordonnees.style.display = "block";
-// })
 //Au clic sur le bouton précédent on revient sur la section réservation
 let btnPrecedent = document.getElementById("btnPrecedent");
 
@@ -244,4 +237,3 @@ function afficherMasquerCasques() {
     sectionCasquesEnfants.style.display = "none";
   }
 };
-

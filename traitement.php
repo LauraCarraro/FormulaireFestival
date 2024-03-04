@@ -1,10 +1,11 @@
 <?php
 define("MAX_RANGE", 200);
-define("PRIX_TENTE_VAN_1_NUIT", 7);
-define("PRIX_TENTE_VAN_3_NUITS", 18);
+define("PRIX_TENTE_VAN_1_NUIT", 5);
+define("PRIX_TENTE_VAN_3_NUITS", 12);
 
 //Vérification des champs des coordonnées
 if (isset($_POST) && $_POST) {
+    //Vérification nom
     if (isset($_POST['nom']) && $_POST['nom'] !== "") {
         $nom = htmlspecialchars($_POST['nom']);
     } else {
@@ -12,12 +13,14 @@ if (isset($_POST) && $_POST) {
         exit;
     }
 
+    //Vérification prenom
     if (isset($_POST['prenom']) && $_POST['prenom'] !== "") {
         $prenom = htmlspecialchars($_POST['prenom']);
     } else {
         header('location:../index.php?error=' . "Le prénom est obligatoire");
         exit;
     }
+    
     //Vérification email
     if (isset($_POST['email']) && $_POST['email'] !== "") {
         if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
@@ -30,6 +33,7 @@ if (isset($_POST) && $_POST) {
         header('location:../index.php?error=' . "L'email est obligatoire.");
         exit;
     }
+
     //Vérification du numéro de téléphone
     if (isset($_POST['telephone']) && $_POST['telephone'] !== "") {
         if (filter_var($_POST['telephone'], FILTER_SANITIZE_NUMBER_INT)) {
@@ -43,31 +47,31 @@ if (isset($_POST) && $_POST) {
         exit;
     }
 
-    //Vérification des caractères de l'adresse postale
-    $adressePostale = htmlspecialchars($_POST['adressePostale']);
-
-    // echo '<pre>';
-    // var_dump($_POST);
-    // echo '</pre>';
+    //Vérification de l'adresse postale
+    if (isset($_POST['adressePostale']) && $_POST['adressePostale'] !== "") {
+        $adressePostale = htmlspecialchars($_POST['adressePostale']);
+    } else {
+        header('location:../index.php?error=' . "L'adresse postale est obligatoire");
+        exit;
+    }
 
     //Calcul du prix total
-    $tarifReduit = isset($_POST["tarifReduit"]) ? "Oui" : "Non";
     $prixTotal = 0;
     $nombreJourReduit = $choixNombreJourReduit = null;
-    if (isset($_POST['nbJourReduit'])) {
-        $nombreJourReduit = $_POST['nbJourReduit'];
+    if (isset($_POST['choixPassReduit'])) {
+        $nombreJourReduit = $_POST['choixPassReduit'];
         // Récupérer la valeur sélectionnée
         switch ($nombreJourReduit) {
             case "pass1jourreduit":
-                $choixNombreJourReduit = "1 jour";
+                $choixNombreJourReduit = "1 jour réduit";
                 $prixTotal += 25;
                 break;
             case "pass2joursreduit":
-                $choixNombreJourReduit = "2 jours";
+                $choixNombreJourReduit = "2 jours réduit";
                 $prixTotal += 50;
                 break;
             case "pass3joursreduit":
-                $choixNombreJourReduit = "3 jours";
+                $choixNombreJourReduit = "3 jours réduit";
                 $prixTotal += 65;
                 break;
             default:
@@ -77,8 +81,8 @@ if (isset($_POST) && $_POST) {
     }
 
     $nombreJour = $choixNombreJour = null;
-    if (isset($_POST['nbJour'])) {
-        $nombreJour = $_POST['nbJour'];
+    if (isset($_POST['choixPass'])) {
+        $nombreJour = $_POST['choixPass'];
         // Récupérer la valeur sélectionnée
         switch ($nombreJour) {
             case "pass1jour":
@@ -98,7 +102,7 @@ if (isset($_POST) && $_POST) {
         }
     }
 
-    if (isset($_POST['pass1jour'])) {
+    if (isset($_POST['choixPass']) && ($_POST['choixPass'] === "pass1jour")) {
         switch ($_POST['choixJour']) {
             case 'choixJour1':
                 $choixPass1jour = "Premier jour";
@@ -117,7 +121,7 @@ if (isset($_POST) && $_POST) {
         $choixPass1jour = null;
     }
 
-    if (isset($_POST['pass2jours'])) {
+    if (isset($_POST['choixPass']) && ($_POST['choixPass'] === "pass2jours")) {
         switch ($_POST['choixJour2']) {
             case 'choixjour12':
                 $choixPass2Jours = "Premier et deuxième jour";
@@ -150,32 +154,38 @@ if (isset($_POST) && $_POST) {
     $nombreLugesEte = isset($_POST["NombreLugesEte"]) && $_POST["NombreLugesEte"] !== "" ? (int) $_POST["NombreLugesEte"] : 0;
 
     // Vérification prix pour la réservation tente
-    $tenteNuit = isset($_POST["tenteNuit"]) ? $_POST["tenteNuit"] : null;
-    if ($tenteNuit === "tenteNuit1") {
+    $tenteNuit1 = isset($_POST["tenteNuit1"]);
+    $tenteNuit2 = isset($_POST["tenteNuit2"]);
+    $tenteNuit3 = isset($_POST["tenteNuit3"]);
+    $tente3Nuits = isset($_POST["tente3Nuits"]);
+    if ($tenteNuit1) {
         $prixTotal += PRIX_TENTE_VAN_1_NUIT;
     }
-    if ($tenteNuit === "tenteNuit2") {
+    if ($tenteNuit2) {
         $prixTotal += PRIX_TENTE_VAN_1_NUIT;
     }
-    if ($tenteNuit === "tenteNuit3") {
+    if ($tenteNuit3) {
         $prixTotal += PRIX_TENTE_VAN_1_NUIT;
     }
-    if ($tenteNuit === "tente3Nuits") {
+    if ($tente3Nuits) {
         $prixTotal += PRIX_TENTE_VAN_3_NUITS;
     }
 
     // Vérification prix pour la réservation van 
-    $vanNuit = isset($_POST["vanNuit"]) ? $_POST["vanNuit"] : null;
-    if ($vanNuit === "vanNuit1") {
+    $vanNuit1 = isset($_POST["vanNuit1"]);
+    $vanNuit2 = isset($_POST["vanNuit2"]);
+    $vanNuit3 = isset($_POST["vanNuit3"]);
+    $van3Nuits = isset($_POST["van3Nuits"]);
+    if ($vanNuit1) {
         $prixTotal += PRIX_TENTE_VAN_1_NUIT;
     }
-    if ($vanNuit === "vanNuit2") {
+    if ($vanNuit2) {
         $prixTotal += PRIX_TENTE_VAN_1_NUIT;
     }
-    if ($vanNuit === "vanNuit3") {
+    if ($vanNuit3) {
         $prixTotal += PRIX_TENTE_VAN_1_NUIT;
     }
-    if ($vanNuit === "van3Nuits") {
+    if ($van3Nuits) {
         $prixTotal += PRIX_TENTE_VAN_3_NUITS;
     }
 
@@ -193,21 +203,21 @@ if (isset($_POST) && $_POST) {
         $telephone,
         $adressePostale,
         $nombrePlaces,
-        $tarifReduit,
+        isset($_POST["tarifReduit"]) ? "Oui" : "Non",
         $prixTotal,
         $nombreJourReduit,
         $nombreJour,
         $choixPass1jour,
         $choixPass2Jours,
         isset($_POST['pass3jours']) ? "Pass complet" : null,
-        $tenteNuit === "tenteNuit1" ? "Oui" : "Non",
-        $tenteNuit === "tenteNuit2" ? "Oui" : "Non",
-        $tenteNuit === "tenteNuit3" ? "Oui" : "Non",
-        $tenteNuit === "tente3Nuits" ? "Oui" : "Non",
-        $vanNuit === "vanNuit1" ? "Oui" : "Non",
-        $vanNuit === "vanNuit2" ? "Oui" : "Non",
-        $vanNuit === "vanNuit3" ? "Oui" : "Non",
-        $vanNuit === "van3Nuits" ? "Oui" : "Non",
+        $tenteNuit1 ? "Oui" : "Non",
+        $tenteNuit2 ? "Oui" : "Non",
+        $tenteNuit3 ? "Oui" : "Non",
+        $tente3Nuits ? "Oui" : "Non",
+        $vanNuit1 ? "Oui" : "Non",
+        $vanNuit2 ? "Oui" : "Non",
+        $vanNuit3 ? "Oui" : "Non",
+        $van3Nuits ? "Oui" : "Non",
         $enfant,
         $nombreCasquesEnfants,
         $nombreLugesEte
@@ -217,7 +227,9 @@ if (isset($_POST) && $_POST) {
 
     // Réponse à l'utilisateur
     echo "Merci pour votre réservation !";
-
+} else {
+    // Rediriger vers index si le formulaire n'est pas soumis
+    header('location:../index.php');
 } ?>
 
 <!-- //Affichage récapitulatif réservation sous forme de liste -->
@@ -239,11 +251,14 @@ if (isset($_POST) && $_POST) {
     <li>Adresse :
         <?php echo $adressePostale; ?>
     </li>
+    <li> Prix total :
+        <?php echo $prixTotal; ?>
+    </li>
     <li>Nombre de places :
         <?php echo $nombrePlaces; ?>
     </li>
     <li>Tarif réduit :
-        <?php echo $tarifReduit; ?>
+        <?php echo isset($_POST["tarifReduit"]) ? "Oui" : "Non"; ?>
     </li>
     <li>Pass réduits :
         <?php echo $choixNombreJourReduit; ?>
@@ -251,35 +266,29 @@ if (isset($_POST) && $_POST) {
     <li>Pass :
         <?php echo $choixNombreJour; ?>
     </li>
-    <li>Jour choisi :
-        <?php echo $choixPass1jour; ?>
-    </li>
-    <li>Jours choisis :
-        <?php echo $choixPass2Jours; ?>
-    </li>
     <li>Tente nuit 1 :
-        <?php echo $tenteNuit === "tenteNuit1" ? "Oui" : "Non" ?>
+        <?php echo $tenteNuit1 ? "Oui" : "Non" ?>
     </li>
     <li>Tente nuit 2 :
-        <?php echo $tenteNuit === "tenteNuit2" ? "Oui" : "Non" ?>
+        <?php echo $tenteNuit2 ? "Oui" : "Non" ?>
     </li>
     <li>Tente nuit 3 :
-        <?php echo $tenteNuit === "tenteNuit3" ? "Oui" : "Non" ?>
+        <?php echo $tenteNuit3 ? "Oui" : "Non" ?>
     </li>
     <li>Tente 3 nuits :
-        <?php echo $tenteNuit === "tente3Nuits" ? "Oui" : "Non" ?>
+        <?php echo $tente3Nuits ? "Oui" : "Non" ?>
     </li>
     <li>Van nuit 1 :
-        <?php echo $vanNuit === "vanNuit1" ? "Oui" : "Non" ?>
+        <?php echo $vanNuit1 ? "Oui" : "Non" ?>
     </li>
     <li>Van nuit 2 :
-        <?php echo $vanNuit === "vanNuit2" ? "Oui" : "Non" ?>
+        <?php echo $vanNuit2 ? "Oui" : "Non" ?>
     </li>
     <li>Van nuit 3 :
-        <?php echo $vanNuit === "vanNuit3" ? "Oui" : "Non" ?>
+        <?php echo $vanNuit3 ? "Oui" : "Non" ?>
     </li>
     <li>Van 3 nuits :
-        <?php echo $vanNuit === "van3Nuits" ? "Oui" : "Non" ?>
+        <?php echo $van3Nuits ? "Oui" : "Non" ?>
     </li>
     <li>Enfants :
         <?php echo $enfant; ?>

@@ -43,6 +43,12 @@ input[type="radio"] {
   left: 500px;
 }
 
+input[type="checkbox"] {
+  position: relative;
+  top: 20px;
+  left: 500px;
+}
+
 input[type="number"]{
     width: 100px;
     height: 15px;
